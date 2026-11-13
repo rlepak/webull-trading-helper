@@ -1,0 +1,22 @@
+schema: spec-driven
+
+context: |
+  This project is a Webull trading helper in its initial setup phase.
+  The first requirement is connection to Webull and retrieval of useful data
+  without additional subscription purchases. See REQUIREMENTS.md for scope and
+  unresolved decisions. The first implementation is US-stock MQTT market streaming
+  with typed quote, snapshot, and tick events logged for future aggregation.
+  Account reads and historical downloads are outside this first implementation.
+  The user explicitly requested temporary credentials in the Git-ignored local
+  application.properties; never copy credential values into artifacts or logs.
+  Separate verified broker capabilities from proposed behavior and mock data.
+
+rules:
+  proposal:
+    - State the user problem, scope, non-goals, and unresolved product decisions.
+  specs:
+    - Make requirements observable and include success and relevant failure scenarios.
+  design:
+    - Explain new dependencies and external integration assumptions when applicable.
+  tasks:
+    - Include verification steps tied to the requirements; use the Maven wrapper for Java checks.
