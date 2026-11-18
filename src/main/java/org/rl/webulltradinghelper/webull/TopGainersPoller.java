@@ -22,6 +22,8 @@ public class TopGainersPoller implements SmartLifecycle {
     private ScheduledExecutorService executor;
     private int failures;
     private volatile java.time.Instant lastSuccessAt;
+    private volatile java.time.Instant lastRankingRequestAt;
+    public java.time.Instant lastRankingRequestAt() { return lastRankingRequestAt; }
     public java.time.Instant lastSuccessAt() { return lastSuccessAt; }
 
     public TopGainersPoller(TopGainersProperties settings, WebullProperties webull,
@@ -49,11 +51,13 @@ public class TopGainersPoller implements SmartLifecycle {
     }
 
     long pollOnce() {
-        var session = GainersSession.at(clock.instant(), ZoneId.of(settings.zone()));
+        var requestAt = clock.instant();
+        var session = GainersSession.at(requestAt, ZoneId.of(settings.zone()));
         try {
             var ranking = gateway.fetch(session);
             selection.replace(ranking);
             failures = 0;
+            lastRankingRequestAt = requestAt;
             lastSuccessAt = clock.instant();
             log.debug("Webull gainers refreshed session={} returned={} eligible={}", session, ranking.size(), selection.symbols().size());
             return settings.pollIntervalMs();

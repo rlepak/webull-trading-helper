@@ -19,6 +19,8 @@ public class WebullStreamClient implements SmartLifecycle {
     private final SymbolSelection selection;
     private volatile boolean running;
     private volatile boolean connected;
+    private volatile long connectionGeneration;
+    public long connectionGeneration() { return connectionGeneration; }
     public boolean isConnected() { return connected; }
     private volatile Thread worker;
 
@@ -77,6 +79,7 @@ public class WebullStreamClient implements SmartLifecycle {
                 log.warn("Webull MQTT connection rejected code={}", ack.getCode());
                 return;
             }
+            connectionGeneration++;
             connected = disconnected.getCount() != 0;
             log.debug("Webull MQTT connected; requesting data subscriptions");
             var reconciler = new SubscriptionReconciler(session, properties.streaming().types());

@@ -111,6 +111,15 @@ class TopGainersTest {
         verifyNoInteractions(gateway);
     }
 
+    @Test void rankingRefreshRetainsNewOrderAndPricesWithoutMembershipChange() {
+        var selection = new SymbolSelection(settings(true), WebullPropertiesTest.properties(true));
+        selection.replace(List.of(stock("AAA", "1"), stock("BBB", "2")));
+        selection.replace(List.of(stock("BBB", "3"), stock("AAA", "2")));
+        assertEquals(List.of("BBB", "AAA"), selection.ranking().stream().map(GainerStock::symbol).toList());
+        assertEquals(new BigDecimal("3"), selection.ranking().getFirst().price());
+        assertEquals(Set.of("AAA", "BBB"), selection.symbols());
+    }
+
     @Test void rejectsInvalidConfiguration() {
         assertThrows(IllegalArgumentException.class, () -> new TopGainersProperties(true, 100,
                 "America/Chicago", new BigDecimal(".1"), BigDecimal.TEN));

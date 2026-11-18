@@ -19,8 +19,8 @@ belong in the linked OpenSpec change; completed capability specs live in
 
 ## Decisions for later requirements
 
-Historical retrieval, account data, other instrument types,
-and UI remain future work. REQ-001 now covers the requested socket connection,
+Historical retrieval, account data and other instrument types
+remain future work. REQ-001 now covers the requested socket connection,
 typed market events, and logging. Initial US-stock symbols are configurable.
 
 ## Ordered backlog
@@ -34,6 +34,7 @@ Assign subsequent IDs in sequence and keep IDs stable when reordering.
 | 3 | REQ-003 | Record hourly binary market data | Verified | REQ-002 | [record-binary-market-data](openspec/changes/record-binary-market-data/proposal.md) |
 | 4 | REQ-004 | Report health every five minutes with quiet console | Verified | REQ-003 | [periodic-health-logging](openspec/changes/periodic-health-logging/proposal.md) |
 | 5 | REQ-005 | Aggregate observed trades into 10-second candles | Verified | REQ-004 | [aggregate-ten-second-bars](openspec/changes/aggregate-ten-second-bars/proposal.md) |
+| 6 | REQ-006 | Live session top-ten gainers and volume surge table | Verified | REQ-002, REQ-005 | [add-live-gainers-dashboard](openspec/changes/add-live-gainers-dashboard/proposal.md) |
 
 ## Requirement entries
 
@@ -129,6 +130,16 @@ must be established for the user's account rather than inferred from the mobile 
 - Raw binary recordings stay unchanged; replay runner and exchange-time candles remain follow-up work.
 - Verification: 49 tests and strict validation of all five changes passed, including
   idle scheduler execution. See [evidence](openspec/changes/aggregate-ten-second-bars/verification.md).
+
+### REQ-006 — Live gainers dashboard
+
+- Status: Verified (offline tests and browser checks).
+- Scope: Session top-ten table, one-second refresh, observed ten-second volume
+  surge highlighting, explicit freshness and warm-up. No orders or raw recording.
+- OpenSpec change: [add-live-gainers-dashboard](openspec/changes/add-live-gainers-dashboard/proposal.md).
+- Verification: 60 tests passed; dashboard spec passed strict validation. Browser
+  checks used offline fixture data. Full-project validation still flags five
+  unrelated reverted strategy change folders. See [evidence](openspec/changes/add-live-gainers-dashboard/verification.md).
 
 Statuses: **Draft** → **Specified** → **In progress** → **Verified** → **Done**.
 Use **Blocked** when progress requires an unresolved decision or dependency, and

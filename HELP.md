@@ -265,3 +265,38 @@ in this first implementation. See the active OpenSpec change for its requirement
 Official references: [OpenSpec](https://github.com/Fission-AI/OpenSpec),
 [CLI reference](https://github.com/Fission-AI/OpenSpec/blob/main/docs/cli.md),
 [Codex integration](https://github.com/Fission-AI/OpenSpec/blob/main/docs/supported-tools.md).
+
+## Live gainers dashboard (REQ-006)
+
+Run the application normally and open `http://localhost:8080/` (or your server's
+address and configured port). `/api/dashboard` is the read-only, uncached table
+snapshot. The page refreshes every second without adding broker requests.
+
+The table follows the existing Chicago schedule: premarket 03:00–08:30, regular
+08:30–15:00, aftermarket otherwise. Tickers stay in provider ranking order.
+Price updates from matching-session trades/snapshots; gain % is the latest
+ranking value, not recalculated from live prices. Session volume is the broker
+snapshot field; ten-second volume and count include only observed trades.
+
+A forming receive-time ten-second bar triggers green at 3× the average of the
+previous three consecutive complete bars. Green lasts ten seconds from the first trigger in a window; repeated updates
+in that same window do not extend it. The first partial subscription window is excluded. Missing windows,
+unknown sizes or a zero baseline do not trigger. Session/date changes and
+reconnections require fresh warm-up. Stale ranking/events and disconnected feeds
+suppress highlights; green indicates activity, not a buy recommendation.
+
+Settings in the existing local `src/main/resources/application.properties`:
+
+```properties
+binary-log.enabled=false
+aggregation.enabled=true
+dashboard.volume-multiplier=3
+dashboard.baseline-bars=3
+dashboard.highlight-seconds=10
+dashboard.stale-seconds=15
+```
+
+Keep aggregation history at least as large as the baseline count. No raw log
+files are written with recording disabled. The dashboard has no order controls
+and uses only existing Webull data subscriptions. Missing broker fields display
+as a dash. The existing configuration file remains ignored to protect credentials.

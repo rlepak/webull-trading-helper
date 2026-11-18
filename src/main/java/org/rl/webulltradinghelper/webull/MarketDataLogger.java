@@ -20,6 +20,8 @@ public class MarketDataLogger {
     private final Clock clock;
     private final org.rl.webulltradinghelper.recording.BinaryLogWriter recorder;
     private final MarketAggregationService aggregation;
+    @org.springframework.beans.factory.annotation.Autowired
+    private org.springframework.context.ApplicationEventPublisher publisher;
 
     public MarketDataLogger(MarketDataMapper mapper, ObjectMapper json, Clock clock,
             org.rl.webulltradinghelper.recording.BinaryLogWriter recorder, MarketAggregationService aggregation) {
@@ -49,6 +51,7 @@ public class MarketDataLogger {
             accepted.incrementAndGet();
             recorder.record(event);
             aggregation.accept(event);
+            if (publisher != null) publisher.publishEvent(event);
             if (!log.isDebugEnabled()) return;
             ObjectNode displayed = json.valueToTree(event);
             displayed.put("receivedAt", event.receivedAt().atZone(clock.getZone()).toOffsetDateTime().toString());

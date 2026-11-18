@@ -11,7 +11,8 @@ import org.springframework.beans.factory.annotation.Value;
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties({WebullProperties.class, TopGainersProperties.class,
         org.rl.webulltradinghelper.recording.BinaryLogProperties.class,
-        org.rl.webulltradinghelper.aggregation.AggregationProperties.class})
+        org.rl.webulltradinghelper.aggregation.AggregationProperties.class,
+        org.rl.webulltradinghelper.dashboard.DashboardProperties.class})
 public class WebullConfiguration {
     @Bean
     Clock webullClock(@Value("${app.time-zone:America/Chicago}") String zone) {
