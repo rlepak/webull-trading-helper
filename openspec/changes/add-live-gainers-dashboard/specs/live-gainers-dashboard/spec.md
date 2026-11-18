@@ -43,3 +43,14 @@ The UI SHALL display connection status, last ranking time and row update age. Di
 #### Scenario: Fixed highlight duration
 - **WHEN** a surge first triggers at 07:00:41.500
 - **THEN** its highlight expires at 07:00:51.500 unless a later window independently triggers another surge
+
+### Requirement: Average observed trade size
+The table SHALL show average trade size in shares for the forming ten-second window, calculated as observed volume divided by observed trade count and displayed with at most two decimal places. Unknown volume or zero trades SHALL display an em dash.
+
+#### Scenario: Known trade sizes
+- **WHEN** the window has 100 trades totaling 25000 shares
+- **THEN** average trade size shows 250 shares per trade
+
+#### Scenario: No usable average
+- **WHEN** volume is unknown or trade count is zero
+- **THEN** the average displays an em dash instead of zero or an invalid number

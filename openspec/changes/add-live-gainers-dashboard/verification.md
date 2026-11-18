@@ -32,3 +32,8 @@ updates in the triggering window do not extend expiry. The regression test
 checks visibility at +9 seconds and expiry at +10 seconds after additional
 trades and snapshot requests. All 60 Maven tests pass. Strict validation passes
 for this change; the same five unrelated incomplete changes still fail globally.
+
+## Average trade size column
+- JavaScript syntax check passed. Node DOM fixture checks passed for 25000/100 = 250, fractional display, unknown volume, zero trades, zero volume, eleven-column empty state, and HTTP-error status placement without overwriting the new column.
+- Dashboard change strict validation passed. Full validation: six passed, the same five unrelated reverted strategy changes fail for missing deltas.
+- No Java changes; Maven tests not rerun for this static UI addition. No live deployment performed.

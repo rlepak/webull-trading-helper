@@ -135,7 +135,7 @@ must be established for the user's account rather than inferred from the mobile 
 
 - Status: Verified (offline tests and browser checks).
 - Scope: Session top-ten table, one-second refresh, observed ten-second volume
-  surge highlighting, explicit freshness and warm-up. No orders or raw recording.
+  surge highlighting, average shares per trade, explicit freshness and warm-up. No orders or raw recording.
 - OpenSpec change: [add-live-gainers-dashboard](openspec/changes/add-live-gainers-dashboard/proposal.md).
 - Verification: 60 tests passed; dashboard spec passed strict validation. Browser
   checks used offline fixture data. Full-project validation still flags five

@@ -18,11 +18,12 @@ function render(data) {
   data.rows.forEach((row, index) => {
     const tr = document.createElement('tr'); tr.className = row.highlighted ? 'surge' : '';
     const gain = row.gainPercent == null ? '—' : (row.gainPercent >= 0 ? '+' : '') + number(row.gainPercent, 2) + '%';
-    const values = [index + 1, row.symbol, price(row.price), gain, number(row.sessionVolume), number(row.currentVolume), number(row.tradeCount), row.volumeMultiplier == null ? '—' : number(row.volumeMultiplier, 2) + '×', row.status, row.ageSeconds == null ? 'No events' : row.ageSeconds + 's ago'];
+    const averageTradeSize = row.currentVolume != null && row.tradeCount > 0 ? row.currentVolume / row.tradeCount : null;
+    const values = [index + 1, row.symbol, price(row.price), gain, number(row.sessionVolume), number(row.currentVolume), number(row.tradeCount), number(averageTradeSize, 2), row.volumeMultiplier == null ? '—' : number(row.volumeMultiplier, 2) + '×', row.status, row.ageSeconds == null ? 'No events' : row.ageSeconds + 's ago'];
     values.forEach((value, column) => { const td = document.createElement('td'); td.textContent = value; if (column === 3 && row.gainPercent != null) td.className = row.gainPercent >= 0 ? 'positive' : 'negative'; tr.append(td); });
     fragment.append(tr);
   });
-  if (!data.rows.length) { const tr = document.createElement('tr'); const td = document.createElement('td'); td.colSpan = 10; td.className = 'empty'; td.textContent = 'Waiting for eligible session gainers. The table fills automatically.'; tr.append(td); fragment.append(tr); }
+  if (!data.rows.length) { const tr = document.createElement('tr'); const td = document.createElement('td'); td.colSpan = 11; td.className = 'empty'; td.textContent = 'Waiting for eligible session gainers. The table fills automatically.'; tr.append(td); fragment.append(tr); }
   el('rows').replaceChildren(fragment);
 }
 async function refresh() {
@@ -34,7 +35,7 @@ async function refresh() {
     el('notice').textContent = 'Dashboard update failed. Displayed values may be stale. Retrying…';
     el('connection').textContent = '○ Dashboard unavailable'; el('connection').className = '';
     el('surges').textContent = '—';
-    document.querySelectorAll('tr.surge').forEach(row => { row.classList.remove('surge'); row.cells[8].textContent = 'Update unavailable'; });
+    document.querySelectorAll('tr.surge').forEach(row => { row.classList.remove('surge'); row.cells[9].textContent = 'Update unavailable'; });
   } finally { setTimeout(refresh, 1000); }
 }
 refresh();

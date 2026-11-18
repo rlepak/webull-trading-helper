@@ -4,7 +4,7 @@
 Identify which of the current top ten gainers are receiving increased trading activity without inspecting raw logs.
 
 ## What Changes
-- Serve a live table refreshed every second with session ranking, prices, gains and observed ten-second trade volume.
+- Serve a live table refreshed every second with session ranking, prices, gains and observed ten-second trade volume and average shares per trade.
 - Highlight a forming window at three times the average of the previous three complete windows; retain the highlight for ten seconds from its first trigger.
 - Show connection, freshness and warm-up explicitly. Keep recording disabled.
 - No orders, backtests, historical downloads or new broker contracts. No unresolved product decisions for this increment.

@@ -21,3 +21,5 @@ Observed volume is not guaranteed consolidated exchange volume; label it explici
 Restart the application and open /. Raw recording remains disabled. Roll back the dashboard changes to remove the page without touching stored data.
 
 Highlight expiry uses an exact Instant ten seconds after first detection. Track the last triggered window so polling and subsequent trades in the same window cannot extend expiry. A new window can independently trigger a new highlight.
+
+Average trade size is derived in the browser from the same API row currentVolume and tradeCount; no additional broker fields, configuration, or API changes are required. The column is labeled shares per trade for the forming 10-second window.

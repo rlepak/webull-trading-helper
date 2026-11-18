@@ -7,3 +7,6 @@
 
 ## 3. Highlight duration
 - [x] 3.1 Use configurable ten-second trigger-relative expiry; verify exact expiry and repeated-update regression tests with ./mvnw test.
+
+## 4. Average trade size
+- [x] 4.1 Add the forming ten-second average shares per trade column, verify rendering and missing-data/error handling, and validate specs.
