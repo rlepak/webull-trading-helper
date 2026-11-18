@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(OutputCaptureExtension.class)
 @SpringBootTest(properties = {"webull.streaming.enabled=false", "binary-log.enabled=false",
-        "health-log.interval-ms=300000"})
+        "aggregation.enabled=true", "health-log.interval-ms=300000"})
 class WebullTradingHelperApplicationTests {
 
     @Test
